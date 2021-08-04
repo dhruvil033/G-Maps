@@ -388,20 +388,21 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
         dist += d;
       };
 
+      const pano = new google.maps.StreetViewPanorama(
+        document.getElementById("map"),
+        {
+          position: new google.maps.LatLng(path[0].lat, path[0].lng),
+          pov: {
+            heading: 0,
+            pitch: 0,
+          }
+        }
+      );
       path.forEach((p, i) => {
         if (i % 3 === 0 || i === path.length) {
           setTimeout(() => {
-            const pano = new google.maps.StreetViewPanorama(
-              document.getElementById("map"),
-              {
-                position: new google.maps.LatLng(p.lat, p.lng),
-                pov: {
-                  heading: 0,
-                  pitch: 0,
-                }
-              }
-            );
-          }, i*1500);
+            pano.setPosition(new google.maps.LatLng(p.lat, p.lng));
+          }, i*500);
         }
       });
 
@@ -436,20 +437,19 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
  * @param {{lat:number,lng:number}} p1 Point 1 (end)
  * @returns Distance between the points in meters
  */
-
 function haversineDistance(p0, p1) {
   const [lat0, lng0] = [p0.lat, p0.lng];
   const [lat1, lng1] = [p1.lat, p1.lng];
   	
   const R = 6371e3; // metres
-  const poi = lat0 * Math.PI/180; // φ, λ in radians
-  const oiu = lat1 * Math.PI/180;
-  const iuy = (lat1-lat0) * Math.PI/180;
-  const uyt = (lng1-lng0) * Math.PI/180;
+  const phi0 = lat0 * Math.PI/180; // phi, lambda in radians
+  const phi1 = lat1 * Math.PI/180;
+  const delPhi = (lat1-lat0) * Math.PI/180;
+  const delLam = (lng1-lng0) * Math.PI/180;
 
-  const a = Math.sin(iuy/2) * Math.sin(iuy/2) +
-            Math.cos(poi) * Math.cos(oiu) *
-            Math.sin(uyt/2) * Math.sin(uyt/2);
+  const a = Math.sin(delPhi/2) * Math.sin(delPhi/2) +
+            Math.cos(phi0) * Math.cos(phi1) *
+            Math.sin(delLam/2) * Math.sin(delLam/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   const d = R * c; // in metres
 
