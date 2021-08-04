@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Harvard Map Demo</title>
+    </style>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="stylesheet" type="text/css" href="./menu.css" />
+    <link rel="stylesheet" type="text/css" href="./directions.css" />
+    <script src="./meta.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  </head>
+  <body>
+    <main>
+      <div id="ui-container">
+        <div id="menu">
+          <div id="searchbar-container">
+            <input type="text" id="searchbar-input">
+            <i id="searchbar-icon"><img src="./icon-magnifying-glass.svg" alt="Search" /></i>
+          </div>
+          <div id="building-list-container">
+            <!-- Add options as <div>s here with JS -->
+          </div>
+        </div>
+        <div id="directions" class="hide">
+          <strong>From: </strong>
+          <form>
+            <input type="text" class="select-css" id="start" READONLY/>
+          </form>
+          <strong>To: </strong>
+          <select id="end" class="select-css">
+            <!-- Add options as <option>s here with JS -->
+          </select>
+          <div id="direction-steps"></div>
+          <div id="directions-button-container">
+            <button type = "submit" id='close-directions-button' class='button'> New Route </button>
+            <button type = "submit" id='go-back-button' class='button'> Go Back </button>
+            </div>
+        </div>
+      </div>
+      <!--The div element for the map -->
+      <div id="map"></div>
+    </main>
+    <script src="./index.js"></script>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <!-- Kevin's personal PI key -- please do not distribute! -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwRBYK_6qUnFrtWyb42ogf5L9I6-R6LvA&v=beta&callback=initMap" async>
+    </script>
+  </body>
+</html>
